@@ -1,11 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { BrowserRouter as Router } from "react-router-dom";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import MUIThemeOptions from "./config/mui_theme_options";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Router>
+      <ThemeProvider theme={createMuiTheme(MUIThemeOptions)}>
+        <App />
+      </ThemeProvider>
+    </Router>
   </React.StrictMode>,
   document.getElementById("root")
 );
