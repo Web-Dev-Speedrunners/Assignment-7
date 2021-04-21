@@ -41,12 +41,12 @@ export const TransactionContextProvider: React.FC = ({ children }) => {
       // and update the balance
 
       let bal = 0;
-      /*eslint no-return-assign: "error"*/
+      /* eslint no-return-assign: "error" */
       GetInitialDebitTransactions().then((value) => {
         setDebitEntries(value);
         value.forEach(({ amount }) => (bal -= amount));
       });
-      /*eslint no-return-assign: "error"*/
+      /* eslint no-return-assign: "error" */
       GetInitialCreditTransactions().then((value) => {
         setCreditEntries(value);
         value.forEach(({ amount }) => (bal += amount));
