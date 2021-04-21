@@ -2,6 +2,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { createContext, useEffect, useState } from "react";
 import { TransactionEntry } from "../types";
+import { 
+  GetInitialDebitTransactions,
+  GetInitialCreditTransactions,
+} from "../services/initial_transactions";
 
 export type TransactionContextValue = {
   balance: number;
@@ -35,17 +39,33 @@ export const TransactionContextProvider: React.FC = ({ children }) => {
       // TODO: Retrieve initial debit and credit transactions from
       // src/services/initial_transaction.ts
       // and update the balance
+      let bal = 0;
+      GetInitialDebitTransactions()
+        .then((value) => {
+          setDebitEntries(value);
+          value.forEach(({ amount }) => bal -= amount);
+        });
+
+      GetInitialCreditTransactions()
+        .then((value) => {
+          setCreditEntries(value);
+          value.forEach(({ amount }) => bal += amount);
+        });
+
+      setBalance(bal);
     };
 
     handleRetrieveInitialTransactions();
   }, []);
 
   const addDebitEntry = (_entry: TransactionEntry): void => {
-    // TODO: Implement Add Credit Entry
+    setDebitEntries([...debitEntries, _entry]);
+    setBalance((bal) => bal - _entry.amount);
   };
 
   const addCreditEntry = (_entry: TransactionEntry): void => {
-    // TODO: Implement Add Credit Entry
+    setCreditEntries([...creditEntries, _entry]);
+    setBalance((bal) => bal + _entry.amount);
   };
 
   return (
