@@ -33,19 +33,20 @@ export const TransactionContextProvider: React.FC = ({ children }) => {
     []
   );
   const [debitEntries, setDebitEntries] = useState<Array<TransactionEntry>>([]);
-  
-  /* eslint no-return-assign: ["error", "always"] */
+
   useEffect(() => {
     const handleRetrieveInitialTransactions = async () => {
       // TODO: Retrieve initial debit and credit transactions from
       // src/services/initial_transaction.ts
       // and update the balance
+
       let bal = 0;
+      /*eslint no-return-assign: "error"*/
       GetInitialDebitTransactions().then((value) => {
         setDebitEntries(value);
         value.forEach(({ amount }) => (bal -= amount));
       });
-
+      /*eslint no-return-assign: "error"*/
       GetInitialCreditTransactions().then((value) => {
         setCreditEntries(value);
         value.forEach(({ amount }) => (bal += amount));
