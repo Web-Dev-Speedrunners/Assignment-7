@@ -1,5 +1,3 @@
-// TODO: Remove ESLint line below
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { createContext, useEffect, useState } from "react";
 import { TransactionEntry } from "../types";
 import {
@@ -36,10 +34,6 @@ export const TransactionContextProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     const handleRetrieveInitialTransactions = async () => {
-      // TODO: Retrieve initial debit and credit transactions from
-      // src/services/initial_transaction.ts
-      // and update the balance
-
       let bal = 0;
       /* eslint no-return-assign: "error" */
       GetInitialDebitTransactions().then((value) => {
