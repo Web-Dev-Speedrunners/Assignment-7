@@ -38,7 +38,7 @@ export const TransactionContextProvider: React.FC = ({ children }) => {
       let credit = 0;
       /* eslint no-return-assign: "error" */
       await GetInitialDebitTransactions().then((value) => {
-        setDebitEntries(value);        
+        setDebitEntries(value);
         value.forEach(({ amount }) => (debit += amount));
       });
       /* eslint no-return-assign: "error" */
