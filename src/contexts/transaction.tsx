@@ -34,19 +34,24 @@ export const TransactionContextProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     const handleRetrieveInitialTransactions = async () => {
-      let bal = 0;
+      let debit = 0;
+      let credit = 0;
       /* eslint no-return-assign: "error" */
-      GetInitialDebitTransactions().then((value) => {
-        setDebitEntries(value);
-        value.forEach(({ amount }) => (bal -= amount));
+      await GetInitialDebitTransactions().then((value) => {
+        setDebitEntries(value);        
+        value.forEach(({ amount }) => (debit += amount));
       });
       /* eslint no-return-assign: "error" */
-      GetInitialCreditTransactions().then((value) => {
+      await GetInitialCreditTransactions().then((value) => {
         setCreditEntries(value);
-        value.forEach(({ amount }) => (bal += amount));
+        value.forEach(({ amount }) => (credit += amount));
       });
 
-      setBalance(bal);
+      // console.log('Credit:', credit);
+      // console.log('Debit', debit);
+      // console.log('bal', credit - debit);
+
+      setBalance(credit - debit);
     };
 
     handleRetrieveInitialTransactions();
