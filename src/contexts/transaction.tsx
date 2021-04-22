@@ -47,10 +47,6 @@ export const TransactionContextProvider: React.FC = ({ children }) => {
         value.forEach(({ amount }) => (credit += amount));
       });
 
-      // console.log('Credit:', credit);
-      // console.log('Debit', debit);
-      // console.log('bal', credit - debit);
-
       setBalance(credit - debit);
     };
 
