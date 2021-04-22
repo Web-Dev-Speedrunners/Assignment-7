@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 
 import { Typography, makeStyles } from "@material-ui/core";
 
-// import TransactionContext from "../../contexts/transaction";
+import TransactionContext from "../../contexts/transaction";
 import numWithCommas from "../../utils/numWCommas";
 
 const useStyles = makeStyles({
@@ -26,8 +26,7 @@ const useStyles = makeStyles({
 const AccountBalance: React.FC = () => {
   const styleClass = useStyles();
 
-  // const { balance } = useContext(TransactionContext);
-  const balance = 9876543.21;
+  const { balance } = useContext(TransactionContext);
 
   return (
     <div>
