@@ -1,7 +1,9 @@
-// TODO: Remove ESLint line below
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { createContext, useEffect, useState } from "react";
 import { TransactionEntry } from "../types";
+import {
+  GetInitialDebitTransactions,
+  GetInitialCreditTransactions,
+} from "../services/initial_transactions";
 
 export type TransactionContextValue = {
   balance: number;
@@ -32,20 +34,33 @@ export const TransactionContextProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     const handleRetrieveInitialTransactions = async () => {
-      // TODO: Retrieve initial debit and credit transactions from
-      // src/services/initial_transaction.ts
-      // and update the balance
+      let debit = 0;
+      let credit = 0;
+      /* eslint no-return-assign: "error" */
+      await GetInitialDebitTransactions().then((value) => {
+        setDebitEntries(value);
+        value.forEach(({ amount }) => (debit += amount));
+      });
+      /* eslint no-return-assign: "error" */
+      await GetInitialCreditTransactions().then((value) => {
+        setCreditEntries(value);
+        value.forEach(({ amount }) => (credit += amount));
+      });
+
+      setBalance(credit - debit);
     };
 
     handleRetrieveInitialTransactions();
   }, []);
 
   const addDebitEntry = (_entry: TransactionEntry): void => {
-    // TODO: Implement Add Credit Entry
+    setDebitEntries([...debitEntries, _entry]);
+    setBalance((bal) => bal - _entry.amount);
   };
 
   const addCreditEntry = (_entry: TransactionEntry): void => {
-    // TODO: Implement Add Credit Entry
+    setCreditEntries([...creditEntries, _entry]);
+    setBalance((bal) => bal + _entry.amount);
   };
 
   return (

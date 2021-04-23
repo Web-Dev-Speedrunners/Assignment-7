@@ -5,12 +5,15 @@ import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import MUIThemeOptions from "./config/mui_theme_options";
+import { TransactionContextProvider } from "./contexts/transaction";
 
 ReactDOM.render(
   <React.StrictMode>
     <Router>
       <ThemeProvider theme={createMuiTheme(MUIThemeOptions)}>
-        <App />
+        <TransactionContextProvider>
+          <App />
+        </TransactionContextProvider>
       </ThemeProvider>
     </Router>
   </React.StrictMode>,
