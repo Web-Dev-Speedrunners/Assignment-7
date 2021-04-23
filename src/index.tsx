@@ -6,6 +6,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import MUIThemeOptions from "./config/mui_theme_options";
 import { TransactionContextProvider } from "./contexts/transaction";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 ReactDOM.render(
   <React.StrictMode>
