@@ -32,7 +32,7 @@ const Transaction = ({ id, date, description, amount }: TransactionEntry) => {
 };
 
 const TransactionList: React.FC<TransactionEntries> = ({ entries }) => {
-  console.log("entries", entries);
+  const size: number = entries.length;
 
   return (
     <TableContainer>
@@ -45,23 +45,21 @@ const TransactionList: React.FC<TransactionEntries> = ({ entries }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {/* TODO
-            - RENDER `NoResults` when entries.length === 0 otherwise render the transactions
-            - Also there are warning issues about each child in the list should have a unique key
-              So i tried adding id for the table rows in the transaction component, but doesn't fix
-          */}
-          {entries.map((entry) => {
-            const { id, date, description, amount } = entry;
-            console.log(date.toDateString(), description, amount);
-            return (
-              <Transaction
-                id={id}
-                date={date}
-                description={description}
-                amount={amount}
-              />
-            );
-          })}
+          {size === 0 ? (
+            <NoResults />
+          ) : (
+            entries.map((entry) => {
+              const { id, date, description, amount } = entry;
+              return (
+                <Transaction
+                  id={id}
+                  date={date}
+                  description={description}
+                  amount={amount}
+                />
+              );
+            })
+          )}
         </TableBody>
       </Table>
     </TableContainer>
