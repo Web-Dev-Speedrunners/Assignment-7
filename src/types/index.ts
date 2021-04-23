@@ -1,3 +1,6 @@
+import { v4 as uuid } from 'uuid';
+
+
 export type TransactionEntry = {
   id: string;
   description: string;
@@ -15,7 +18,7 @@ export class TransactionEntryDefault implements TransactionEntry {
   date: Date;
 
   constructor() {
-    this.id = "-1";
+    this.id = uuid();
     this.amount = 0;
     this.description = "";
     this.date = new Date(0);
