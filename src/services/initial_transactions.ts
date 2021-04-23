@@ -12,6 +12,7 @@ export const GetInitialDebitTransactions = async (): Promise<
   const response = await axios.get("https://moj-api.herokuapp.com/debits");
   const transactions: Array<TransactionEntry> = response.data.map(
     (entry: TransactionResponseEntry) => ({
+      id: entry.id,
       description: entry.description,
       amount: entry.amount,
       date: new Date(entry.date),
@@ -26,6 +27,7 @@ export const GetInitialCreditTransactions = async (): Promise<
   const response = await axios.get("https://moj-api.herokuapp.com/credits");
   const transactions: Array<TransactionEntry> = response.data.map(
     (entry: TransactionResponseEntry) => ({
+      id: entry.id,
       description: entry.description,
       amount: entry.amount,
       date: new Date(entry.date),
