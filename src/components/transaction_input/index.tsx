@@ -1,4 +1,4 @@
-import React, { BaseSyntheticEvent, useContext, useState } from "react";
+import React, { BaseSyntheticEvent, useContext, useState, useRef } from "react";
 import {
   Button,
   Form,
@@ -9,34 +9,54 @@ import {
   Label,
 } from "reactstrap";
 import TransactionContext from "../../contexts/transaction";
-import { TransactionEntry } from "../../types";
+import { TransactionEntry, TransactionEntryDefault } from "../../types";
 
 const TransactionInput: React.FC = () => {
-  const [formResponse, updateForm] = useState<TransactionEntry>({
-    amount: 0,
-    description: "",
-    date: new Date(),
-  });
+  const [formResponse, updateForm] = useState<TransactionEntry>(
+    new TransactionEntryDefault()
+  );
+  const formRef = useRef() as React.MutableRefObject<HTMLFormElement>;
 
   const { addCreditEntry } = useContext(TransactionContext);
 
-  const handleSubmit = (a: BaseSyntheticEvent) => {
-    a.preventDefault();
+  // handler for the submission of the whole form
+  const handleSubmit = (buttonEvent: BaseSyntheticEvent) => {
+    // prevent page refresh
+    buttonEvent.preventDefault();
+
     addCreditEntry(formResponse);
+    updateForm(new TransactionEntryDefault());
+
+    // clear the unmanaged items from the form
+    formRef.current.reset();
   };
 
+  // handlers for each individual property in the form
   const handleAmountChange = (e: BaseSyntheticEvent) => {
     const amount: number = parseInt(e.target.value, 10) || 0;
     updateForm({ ...formResponse, amount });
   };
+
+  const handleDescriptionChange = (e: BaseSyntheticEvent) => {
+    updateForm({ ...formResponse, description: e.target.value });
+  };
+
+  const handleDateChange = (e: BaseSyntheticEvent) => {
+    updateForm({ ...formResponse, date: new Date(e.target.value) });
+  };
+
   return (
     <div>
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit} innerRef={formRef}>
         <FormGroup>
-          <Label for="exampleEmail">Transaction</Label>
+          <Label for="transaction">Transaction</Label>
           <InputGroup size="lg">
-            <Input placeholder="Description" type="text" />
-            <Input placeholder="Date" type="date" />
+            <Input
+              placeholder="Description"
+              type="text"
+              onChange={handleDescriptionChange}
+            />
+            <Input placeholder="Date" type="date" onChange={handleDateChange} />
           </InputGroup>
           <InputGroup>
             <InputGroupAddon addonType="prepend">$</InputGroupAddon>
@@ -51,7 +71,9 @@ const TransactionInput: React.FC = () => {
             <InputGroupAddon addonType="append">.00</InputGroupAddon>
           </InputGroup>
           <FormGroup />
-          <Button type="submit">Submit</Button>
+          <Button type="submit" value="Submit">
+            Submit
+          </Button>
         </FormGroup>
       </Form>
     </div>
