@@ -20,7 +20,7 @@ const TransactionInput: React.FC = () => {
 
   const { addCreditEntry } = useContext(TransactionContext);
 
-  const handleSubmit = (a: any) => {
+  const handleSubmit = (a: BaseSyntheticEvent) => {
     a.preventDefault();
     addCreditEntry(formResponse);
   };
