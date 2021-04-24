@@ -1,4 +1,4 @@
-import React, { BaseSyntheticEvent, useContext, useState, useRef } from "react";
+import React, { BaseSyntheticEvent, useState, useRef } from "react";
 import {
   Button,
   Form,
@@ -8,23 +8,24 @@ import {
   InputGroupAddon,
   Label,
 } from "reactstrap";
-import TransactionContext from "../../contexts/transaction";
 import { TransactionEntry, TransactionEntryDefault } from "../../types";
 
-const TransactionInput: React.FC = () => {
+interface AddTransactionMethod {
+  addMethod: (entry: TransactionEntry) => void;
+}
+
+const TransactionInput: React.FC<AddTransactionMethod> = ({ addMethod }) => {
   const [formResponse, updateForm] = useState<TransactionEntry>(
     new TransactionEntryDefault()
   );
   const formRef = useRef() as React.MutableRefObject<HTMLFormElement>;
-
-  const { addCreditEntry } = useContext(TransactionContext);
 
   // handler for the submission of the whole form
   const handleSubmit = (buttonEvent: BaseSyntheticEvent) => {
     // prevent page refresh
     buttonEvent.preventDefault();
 
-    addCreditEntry(formResponse);
+    addMethod(formResponse);
     updateForm(new TransactionEntryDefault());
 
     // clear the unmanaged items from the form
